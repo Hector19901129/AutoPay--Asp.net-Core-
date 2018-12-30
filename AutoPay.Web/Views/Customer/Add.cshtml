@@ -1,0 +1,227 @@
+﻿@model AutoPay.ViewModels.Customer.AddCustomerVm
+@inject IMasterDataManager MasterDataManager
+@{
+    ViewData["Title"] = "Add Customer";
+    ViewBag.NavCssCustomers = "active";
+}
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetAddCustomerHeader()" />
+<section class="content">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <form asp-action="add" asp-controller="customer" method="post" class="form-horizontal">
+                <input type="hidden" asp-for="BatchId" />
+                <div class="box box-primary">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="box-header with-border">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3 class="box-title">Customer Detail</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Customer ID: *</label>
+                                        <div class="col-sm-4">
+                                            @if (Model == null)
+                                            {
+                                                <input type="text"
+                                                       asp-for="Code"
+                                                       class="form-control"
+                                                       maxlength="50"
+                                                       autocomplete="Off" />
+                                                <div>
+                                                    <span asp-validation-for="Code"></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" asp-for="Code" />
+                                                <label class="form-control">@Model.Code</label>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Customer Name: *</label>
+                                        <div class="col-sm-8">
+                                            @if (true)
+                                            {
+                                                <input type="text"
+                                                       asp-for="Name"
+                                                       class="form-control"
+                                                       maxlength="100"
+                                                       autocomplete="Off" />
+                                                <div>
+                                                    <span asp-validation-for="Name"></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" asp-for="Name" />
+                                                <label class="form-control">@Model.Name</label>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Address:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   asp-for="Address"
+                                                   class="form-control"
+                                                   maxlength="256"
+                                                   autocomplete="Off" />
+                                            <div>
+                                                <span asp-validation-for="Address"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">City:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   asp-for="City"
+                                                   class="form-control"
+                                                   maxlength="100"
+                                                   autocomplete="Off" />
+                                            <div>
+                                                <span asp-validation-for="City"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">State:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   asp-for="State"
+                                                   class="form-control"
+                                                   maxlength="100"
+                                                   autocomplete="Off" />
+                                            <div>
+                                                <span asp-validation-for="State"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Country:</label>
+                                        <div class="col-sm-8">
+                                            <select asp-for="CountryId"
+                                                    asp-items="@(new SelectList(await MasterDataManager.GetCountriesAsync(), "Id", "Name"))"
+                                                    class="form-control">
+                                                <option value="">[Select]</option>
+                                            </select>
+                                            <div>
+                                                <span asp-validation-for="CountryId"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Zip:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text"
+                                                   asp-for="ZipCode"
+                                                   class="form-control"
+                                                   maxlength="10"
+                                                   autocomplete="Off" />
+                                            <div>
+                                                <span asp-validation-for="ZipCode"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="box-header with-border">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3 class="box-title">Payment Detail</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Card Type: *</label>
+                                        <div class="col-sm-4">
+                                            <select asp-for="CardType"
+                                                    asp-items="@(new SelectList(MasterDataManager.GetCardTypes(), "Id", "Name"))"
+                                                    class="form-control">
+                                                <option value="">[Select]</option>
+                                            </select>
+                                            <div>
+                                                <span asp-validation-for="CardType"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Card Number: *</label>
+                                        <div class="col-sm-9">
+                                            <input type="tel"
+                                                   asp-for="CardNumber"
+                                                   class="form-control"
+                                                   maxlength="16"
+                                                   autocomplete="Off" />
+                                            <div>
+                                                <span asp-validation-for="CardNumber"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Expiry Month: *</label>
+                                        <div class="col-sm-3">
+                                            <select asp-for="ExpiryMonth"
+                                                    asp-items="@(new SelectList(MasterDataManager.GetCardExpiryMonths(), "Id", "Name"))"
+                                                    class="form-control">
+                                                <option value="">[Select]</option>
+                                            </select>
+                                            <div>
+                                                <span asp-validation-for="ExpiryMonth"></span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-3 control-label">Expiry Year: *</label>
+                                        <div class="col-sm-3">
+                                            <select asp-for="ExpiryYear"
+                                                    asp-items="@(new SelectList(MasterDataManager.GetCardExpiryYears(), "Id", "Name"))"
+                                                    class="form-control">
+                                                <option value="">[Select]</option>
+                                            </select>
+                                            <div>
+                                                <span asp-validation-for="ExpiryYear"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">CCV: *</label>
+                                        <div class="col-sm-4">
+                                            <input type="tel"
+                                                   asp-for="Ccv"
+                                                   class="form-control"
+                                                   maxlength="4"
+                                                   autocomplete="Off" />
+                                            <div>
+                                                <span asp-validation-for="Ccv"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer text-right">
+                        @if (Model?.BatchId != null)
+                        {
+                            <a asp-action="process" asp-controller="batch" asp-route-id="@Model.BatchId.Value" class="btn btn-default btn-flat">Cancel</a>
+                        }
+                        else
+                        {
+                            <a asp-action="manage" asp-controller="customer" class="btn btn-default btn-flat">Cancel</a>
+                        }
+                        <button type="submit" class="btn btn-primary btn-flat m-l-10">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,42 @@
+﻿<aside class="main-sidebar">
+    <section class="sidebar">
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="/images/avatar5.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>@ViewBag.Username</p>
+                <i class="fa fa-circle text-success fs-11"></i>
+                <span class="fs-11 m-l-2">Online</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="@ViewBag.NavCssBatches">
+                <a asp-action="manage" asp-controller="batch">
+                    <i class="fa fa-tasks"></i> <span>Batches</span>
+                </a>
+            </li>
+            <li class="@ViewBag.NavCssCustomers">
+                <a asp-action="manage" asp-controller="customer">
+                    <i class="fa fa-handshake-o"></i> <span>Customers</span>
+                </a>
+            </li>
+            <li class="@ViewBag.NavCssRemoteDbConfig">
+                <a asp-action="index" asp-controller="remotedb">
+                    <i class="fa fa-database"></i> <span>Remote DB Configuration</span>
+                </a>
+            </li>
+            <li class="@ViewBag.NavCssChangePwd">
+                <a asp-action="changePassword" asp-controller="account">
+                    <i class="fa fa-lock"></i> <span>Change Password</span>
+                </a>
+            </li>
+            <li>
+                <a asp-action="logout" asp-controller="account">
+                    <i class="fa fa-sign-out"></i> <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</aside>

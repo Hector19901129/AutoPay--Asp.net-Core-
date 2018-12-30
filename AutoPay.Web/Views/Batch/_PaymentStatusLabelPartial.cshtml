@@ -1,0 +1,14 @@
+﻿@model PaymentStatus
+
+@switch (Model)
+{
+    case PaymentStatus.NotInitiated:
+        <span class="label label-default">Pending</span>
+        break;
+    case PaymentStatus.Failed:
+        <span class="label label-danger">Failed</span>
+        break;
+    default:
+        <span class="label label-success">Completed</span>
+        break;
+}

@@ -1,0 +1,46 @@
+﻿@model PageHeader
+@{
+    var counter = 1;
+}
+<section class="content-header">
+    <h1>
+        @Model.Title
+        <small>@Model.SubTitle</small>
+    </h1>
+    @if (Model.BreadcrumbItems != null)
+    {
+        <ol class="breadcrumb">
+            @foreach (var breadcrumbItem in Model.BreadcrumbItems)
+            {
+                if (counter == 1)
+                {
+                    if (!string.IsNullOrEmpty(breadcrumbItem.Url))
+                    {
+                        <li>
+                            <a href="@breadcrumbItem.Url"><i class="fa fa-dashboard"></i> @breadcrumbItem.Title</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="active"><i class="fa fa-dashboard"></i> @breadcrumbItem.Title</li>
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(breadcrumbItem.Url))
+                    {
+                        <li>
+                            <a href="@breadcrumbItem.Url">@breadcrumbItem.Title</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="active">@breadcrumbItem.Title</li>
+                    }
+                }
+
+                counter++;
+            }
+        </ol>
+    }
+</section>

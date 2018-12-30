@@ -1,0 +1,118 @@
+﻿@model AutoPay.ViewModels.Batch.BatchDetailVm
+@{
+    ViewData["Title"] = "Batch Detail";
+    ViewBag.NavCssBatches = "active";
+}
+
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetBatchDetailHeader()" />
+<section class="content">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Batch Detail</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Batch: <span class="m-l-15"> <strong> @Model.Name</strong></span>
+                        </div>
+                    </div>
+                    <div class="row m-t-15">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="table-batch-detail">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Customer ID
+                                        </th>
+                                        <th>
+                                            Customer Name
+                                        </th>
+                                        <th class="text-right">
+                                            Amount
+                                        </th>
+                                        <th>
+                                            Payment Status
+                                        </th>
+                                        <th>
+                                            Authorization Code
+                                        </th>
+                                        <th>
+                                            TransactionID
+                                        </th>
+                                        <th>
+                                            Transaction Date
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                @if (Model.Customers != null)
+                                {
+                                    <tbody>
+                                        @foreach (var customer in Model.Customers)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @customer.CustomerId
+                                                </td>
+                                                <td>
+                                                    @customer.CustomerName
+                                                </td>
+                                                <td class="text-right">
+                                                    @customer.Amount?.ToString("C")
+                                                </td>
+                                                <td>
+                                                    @if (customer.PaymentStatus == PaymentStatus.Completed)
+                                                    {
+                                                        <span class="label label-success">Completed</span>
+                                                    }
+                                                    else if (customer.PaymentStatus == PaymentStatus.Failed)
+                                                    {
+                                                        <span class="label label-danger">Failed</span>
+                                                        <a asp-action="paymentError"
+                                                           asp-controller="batch"
+                                                           asp-route-id="@customer.Id"
+                                                           asp-route-bId="@Model.Id">[View]</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="label label-default">Pending</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @(customer.PaymentAuthCode ?? "N/A")
+                                                </td>
+                                                <td>
+                                                    @(customer.TransactionId ?? "N/A")
+                                                </td>
+                                                <td>
+                                                    @customer?.TransactionDate
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="box-footer text-right">
+                    <a asp-action="manage" asp-controller="batch"
+                       class="btn btn-default btn-flat">
+                        Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#table-batch-detail').DataTable();
+        });
+    </script>
+}

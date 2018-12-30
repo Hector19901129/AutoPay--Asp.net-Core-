@@ -1,0 +1,25 @@
+﻿.table td { vertical-align: middle !important; }
+.empty-row { text-align: center; color: #EC5252; }
+.grid .no-wrap { white-space: nowrap !important; }
+
+.grid-company { border-right: 0; }
+    .grid-company th:nth-child(1),
+    .grid-company td:nth-child(1) { width: 13%; text-align: left !important; }
+
+    .grid-company th:nth-child(2),
+    .grid-company td:nth-child(2) { width: 15%; text-align: left !important; }
+
+    .grid-company th:nth-child(3),
+    .grid-company td:nth-child(3) { width: 13%; text-align: left !important; }
+
+    .grid-company th:nth-child(4),
+    .grid-company td:nth-child(4) { width: 15%; text-align: left !important; }
+
+    .grid-company th:nth-child(6),
+    .grid-company td:nth-child(6) { width: 10%; text-align: left !important; }
+
+    .grid-company th:nth-child(7)
+    .grid-company td:nth-child(7) { width: 5%; text-align: left !important; }
+
+    .grid-company th:nth-child(8),
+    .grid-company td:nth-child(8) { width: 8%; text-align: center !important; }

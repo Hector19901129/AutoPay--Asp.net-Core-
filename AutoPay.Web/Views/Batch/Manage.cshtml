@@ -1,0 +1,140 @@
+﻿@model IEnumerable<AutoPay.ViewModels.Batch.BatchListItemVm>
+@{
+    ViewData["Title"] = "Manage";
+    ViewBag.NavCssBatches = "active";
+}
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetManageBatchesHeader()" />
+<section class="content">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="box-title">Manage Batches</h3>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a asp-action="add" asp-controller="batch" class="btn btn-sm btn-primary btn-flat">Add Batch</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="batchTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width:15%">
+                                            Name
+                                        </th>
+                                        <th style="width:30%;display:none">
+                                            SQL Query
+                                        </th>
+                                        <th style="width:15%">
+                                            Customers Count
+                                        </th>
+                                        <th style="width:10%">
+                                            Status
+                                        </th>
+                                        <th style="width:10%">
+                                            Created
+                                        </th>
+                                        <th style="width:10%">
+                                            Updated
+                                        </th>
+                                        <th class="text-center" style="width:10%">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @if (Model != null && Model.Any())
+                                {
+                                    <tbody>
+                                        @foreach (var b in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @if (b.Status == BatchStatus.Completed)
+                                                    {
+                                                        <a asp-action="detail" asp-controller="batch" asp-route-id="@b.Id" class="navigator">@b.Name</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-action="process" asp-controller="batch" asp-route-id="@b.Id" class="navigator">@b.Name</a>
+                                                    }
+                                                </td>
+                                                <td style="display:none">
+                                                    @b.SqlQuery
+                                                </td>
+                                                <td>
+                                                    @b.CustomersCount
+                                                </td>
+                                                <td>
+                                                    @if (b.Status == BatchStatus.Created)
+                                                    {
+                                                        <span class="label label-default">@b.Status</span>
+                                                    }
+                                                    else if (b.Status == BatchStatus.Completed)
+                                                    {
+                                                        <span class="label label-success">@b.Status</span>
+                                                    }
+                                                    else if (b.Status == BatchStatus.Failed)
+                                                    {
+                                                        <span class="label label-danger">@b.Status</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @b.CreatedOn
+                                                </td>
+                                                <td>
+                                                    @b.UpdatedOn
+                                                </td>
+                                                <td class="text-center toolbox">
+                                                    <a asp-action="batch"
+                                                       asp-controller="report"
+                                                       asp-route-id="@b.Id"
+                                                       class="tool"
+                                                       target="_blank">
+                                                        <i class="fa fa-print"></i>
+                                                    </a>
+                                                    <a asp-action="detail" asp-controller="batch" asp-route-id="@b.Id" class="tool">
+                                                        <i class="fa fa-history"></i>
+                                                    </a>
+                                                    <a asp-action="delete" asp-controller="batch" asp-route-id="@b.Id" class="tool">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer text-right">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#batchTable').DataTable({
+                "columns": [
+                    { "data": "name" },
+                    { "data": "sqlQuery", sortable: false },
+                    { "data": "customersCount" },
+                    { "data": "status" },
+                    { "data": "createdOn" },
+                    { "data": "updatedOn" },
+                    { "data": "action", sortable: false }
+                ]
+            });
+        });
+    </script>
+}

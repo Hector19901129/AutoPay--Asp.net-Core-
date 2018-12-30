@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @AppSettings.AppTitle</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="~/lib/iCheck/skins/square/blue.css" rel="stylesheet" />
+    <link href="~/lib/ionicons/css/ionicons.css" rel="stylesheet" />
+    <link href="~/lib/alertify-js/build/css/alertify.css" rel="stylesheet" />
+    <link href="~/lib/alertify-js/build/css/themes/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/inputmask/css/inputmask.css" rel="stylesheet" />
+    <link href="~/lib/datatables.net-bs/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/css/layout.css" rel="stylesheet" />
+    <link href="~/css/skin-blue.css" rel="stylesheet" />
+    <link href="~/css/util.css" rel="stylesheet" />
+    <link href="~/css/grid-style.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+    <input type="hidden" id="hidResponse" value="@(TempData["Response"] ?? ViewBag.Response)" />
+    <div class="wrapper">
+        <partial name="_HeaderPartial" />
+        <partial name="_SideNavPartial" />
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <partial name="_FooterPartial" />
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/moment/moment.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/src/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-query-object/jquery.query-object.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <script src="~/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/lib/iCheck/icheck.js"></script>
+    <script src="~/lib/alertify-js/build/alertify.js"></script>
+    <script src="~/lib/blockUI/jquery.blockUI.js"></script>
+    <script src="~/lib/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/lib/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script src="~/lib/inputmask/dist/inputmask/inputmask.js"></script>
+    <script src="~/lib/inputmask/dist/inputmask/jquery.inputmask.js"></script>
+    <script src="~/lib/jquery-form/src/jquery.form.js"></script>
+    <script src="~/js/app-config.js"></script>
+    <script src="~/js/app-utils.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

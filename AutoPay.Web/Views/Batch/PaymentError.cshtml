@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AutoPay.ViewModels.Payment.PaymentErrorVm>
+@{
+    ViewData["Title"] = "Payment Error";
+    ViewBag.NavCssBatches = "active";
+    var batchId = Convert.ToInt32(ViewBag.BatchId);
+}
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetBatchPaymentErrorHeader(batchId)" />
+<section class="content">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Payment Errors</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row m-t-15">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="table-payment-errors">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 15%;">
+                                            Transaction Date
+                                        </th>
+                                        <th style="width: 10%;">
+                                            Error Code
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                @if (Model != null)
+                                {
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.TransactionDate
+                                                </td>
+                                                <td>
+                                                    @item.Code
+                                                </td>
+                                                <td>
+                                                    @item.Description
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="box-footer text-right">
+                    <a asp-action="detail" asp-controller="batch" asp-route-id="@batchId"
+                       class="btn btn-default btn-flat">
+                        Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

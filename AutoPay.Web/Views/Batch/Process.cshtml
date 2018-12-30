@@ -1,0 +1,128 @@
+﻿@model AutoPay.ViewModels.Batch.BatchVm
+@{
+    ViewData["Title"] = "Process Batch";
+    ViewBag.NavCssBatches = "active";
+}
+
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetProcessBatchHeader()" />
+<section class="content">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Batch Detail</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Batch: <span class="m-l-15"> <strong> @Model.Name</strong></span>
+                        </div>
+                    </div>
+                    <div class="row m-t-15">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="table-current-charges">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Customer ID
+                                        </th>
+                                        <th style="display:none">
+                                            Customer Name
+                                        </th>
+                                        <th class="text-right">
+                                            Amount Due
+                                        </th>
+                                        <th>
+                                            Payment Status
+                                        </th>
+                                        <th>
+                                            Transaction Date
+                                        </th>
+                                        <th class="text-center">
+                                            Approve
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                @if (Model.Customers != null)
+                                {
+                                    <tbody>
+                                        @foreach (var customer in Model.Customers)
+                                        {
+                                            <tr class="@(customer.IsExistsInLocalDb ? "" : "bg-red")">
+                                                <td>
+                                                    @if (customer.IsExistsInLocalDb)
+                                                    {
+                                                        <a asp-action="detail"
+                                                           asp-controller="customer"
+                                                           asp-route-id="@customer.CustomerId"
+                                                           asp-route-bId="@Model.Id"
+                                                           class="navigator">@customer.CustomerId</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-action="add"
+                                                           asp-controller="customer"
+                                                           asp-route-id="@customer.CustomerId"
+                                                           asp-route-bId="@Model.Id"
+                                                           class="navigator">@customer.CustomerId</a>
+                                                    }
+                                                </td>
+                                                <td style="display:none">
+                                                    @customer.CustomerName
+                                                </td>
+                                                <td class="text-right">
+                                                    <span>
+                                                        @customer.AmountDue?.ToString("C")
+                                                    </span>
+                                                    <i class="fa fa-pencil cursor-pointer m-r-2 m-l-5"
+                                                       title="Edit Amount"
+                                                       onclick="showEditAmountModal(@customer.Id, @customer.AmountDue)"></i>
+                                                </td>
+                                                <td>
+                                                    <partial name="_PaymentStatusLabelPartial" model="@customer.PaymentStatus" />
+                                                </td>
+                                                <td>
+                                                    @if (customer.TransactionDate.HasValue)
+                                                    {
+                                                        @customer.TransactionDate
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
+                                                </td>
+                                                <td class="text-center" id="action-approve">
+                                                    <input type="checkbox"
+                                                           id="approve_@(customer.Id)"
+                                                           @(customer.IsExistsInLocalDb ? "" : "disabled") />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer text-right">
+                    <input type="hidden" asp-for="Id" />
+                    <a asp-action="manage" asp-controller="batch" class="btn btn-default btn-flat">Cancel</a>
+                    <button type="button"
+                            id="btnCaptureCharges"
+                            class="btn btn-primary btn-flat m-l-10"
+                            onclick="caputureCharges()"
+                            disabled>
+                        Capture Charges
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<partial name="_PaymentProgressModal" />
+<partial name="_UpdateAmountModal" />
+
+@section Scripts{
+    <script src="~/js/pages/process-batch.js" asp-append-version="true"></script>
+}

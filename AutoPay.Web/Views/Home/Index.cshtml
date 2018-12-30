@@ -1,0 +1,47 @@
+﻿@model AutoPay.ViewModels.Batch.BatchAddVm
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewBag.NavCssDashboard = "active";
+}
+
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetDashboardHeader()" />
+<section class="content">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Create Batch</h3>
+                </div>
+                <div class="box-body">
+                    <form class="form-horizontal" asp-action="index" asp-controller="home" method="post">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Batch Name: *</label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       asp-for="Name"
+                                       class="form-control"
+                                       maxlength="128"
+                                       autocomplete="Off" />
+                                <div>
+                                    <span asp-validation-for="Name"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">SQL Query: *</label>
+                            <div class="col-sm-9">
+                                
+                                <div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer text-right">
+                            <button type="submit" class="btn btn-primary btn-flat">Get Charges</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

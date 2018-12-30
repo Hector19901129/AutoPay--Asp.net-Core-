@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AuthorizeNet.NetStandard" Version="0.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoPay.Infrastructure\AutoPay.Infrastructure.csproj" />
+    <ProjectReference Include="..\AutoPay.Models\AutoPay.Models.csproj" />
+  </ItemGroup>
+
+</Project>

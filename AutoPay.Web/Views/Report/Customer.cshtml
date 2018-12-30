@@ -1,0 +1,85 @@
+﻿@model IEnumerable<AutoPay.Dtos.Customer.CustomerListItemDto>
+@{
+    ViewData["Title"] = "Customer";
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>Customers</h2>
+        </div>
+    </div>
+    <div class="row m-t-30">
+        <div class="col-md-12 text-center">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Customer ID
+                        </th>
+                        <th>
+                            Customer Name
+                        </th>
+                        <th>
+                            Address
+                        </th>
+                        <th>
+                            City
+                        </th>
+                        <th>
+                            State
+                        </th>
+                        <th>
+                            Zip
+                        </th>
+                        <th>
+                            Country
+                        </th>
+                    </tr>
+                </thead>
+                @if (Model != null && Model.Any())
+                {
+                    <tbody>
+                        @foreach (var c in Model)
+                        {
+                            <tr>
+                                <td class="text-left">
+                                    @c.Code
+                                </td>
+                                <td class="text-left">
+                                    @c.Name
+                                </td>
+                                <td class="text-left">
+                                    @c.Address
+                                </td>
+                                <td class="text-left">
+                                    @c.City
+                                </td>
+                                <td class="text-left">
+                                    @c.State
+                                </td>
+                                <td class="text-left">
+                                    @c.ZipCode
+                                </td>
+                                <td class="text-left">
+                                    @c.Country
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(function() {
+            window.print();
+            window.close();
+        });
+    </script>
+}

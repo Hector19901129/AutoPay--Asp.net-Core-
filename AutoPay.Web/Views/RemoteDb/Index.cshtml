@@ -1,0 +1,107 @@
+﻿@model AutoPay.ViewModels.RemoteDbConfig.RemoteDbUpsertVm
+@{
+    ViewData["Title"] = "Remote DB Configuration";
+    ViewBag.NavCssRemoteDbConfig = "active";
+}
+
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetRemoteDbConfigHeader()" />
+<section class="content">
+    <div class="row animated fadeIn">
+        <div class="col-md-10">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Database Detail</h3>
+                </div>
+                <form class="form-horizontal" asp-action="index" asp-controller="remotedb" method="post">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Server: *</label>
+                            <div class="col-sm-6">
+                                <input type="text"
+                                       asp-for="Server"
+                                       class="form-control"
+                                       maxlength="128"
+                                       autocomplete="Off" />
+                                <div>
+                                    <span asp-validation-for="Server"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Username: *</label>
+                            <div class="col-sm-6">
+                                <input type="text"
+                                       asp-for="Username"
+                                       class="form-control"
+                                       maxlength="128"
+                                       autocomplete="Off" />
+                                <div>
+                                    <span asp-validation-for="Username"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Password: *</label>
+                            <div class="col-sm-6">
+                                <input type="text"
+                                       asp-for="Password"
+                                       class="form-control"
+                                       maxlength="128"
+                                       autocomplete="Off" />
+                                <div>
+                                    <span asp-validation-for="Password"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Database: *</label>
+                            <div class="col-sm-6">
+                                <input type="text"
+                                       asp-for="Database"
+                                       class="form-control"
+                                       maxlength="128"
+                                       autocomplete="Off" />
+                                <div>
+                                    <span asp-validation-for="Database"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Update Due Detail SP: *</label>
+                            <div class="col-sm-6">
+                                <input type="text"
+                                       asp-for="UpdateDueDetailSp"
+                                       class="form-control"
+                                       maxlength="128"
+                                       autocomplete="Off" />
+                                <div>
+                                    <span asp-validation-for="UpdateDueDetailSp"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Get Due Detail Query: *</label>
+                            <div class="col-sm-9">
+                                <textarea asp-for="GetDueDetailQuery"
+                                          class="form-control"
+                                          maxlength="1000"
+                                          rows="6"
+                                          autocomplete="Off"></textarea>
+                                <p class="text-info">
+                                    Please make sure that SQL query returns these columns -
+                                    <b>CustomerId</b>, <b>RecType</b>, <b>TransactionDate</b>, <b>Reference</b>, <b>Description</b>, <b>AmountDue</b>, <b>YearMonth</b>
+                                </p>
+                                <div>
+                                    <span asp-validation-for="GetDueDetailQuery"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer text-right">
+                        <button type="submit" class="btn btn-primary btn-flat">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

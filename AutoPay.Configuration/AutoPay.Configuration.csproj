@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoPay.DataLayer\AutoPay.DataLayer.csproj" />
+    <ProjectReference Include="..\AutoPay.Entities\AutoPay.Entities.csproj" />
+    <ProjectReference Include="..\AutoPay.Infrastructure\AutoPay.Infrastructure.csproj" />
+    <ProjectReference Include="..\AutoPay.Managers\AutoPay.Managers.csproj" />
+    <ProjectReference Include="..\AutoPay.Mappers\AutoPay.Mappers.csproj" />
+    <ProjectReference Include="..\AutoPay.Services\AutoPay.Services.csproj" />
+  </ItemGroup>
+
+</Project>

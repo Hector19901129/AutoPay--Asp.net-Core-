@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoPay.DataLayer\AutoPay.DataLayer.csproj" />
+    <ProjectReference Include="..\AutoPay.Dtos\AutoPay.Dtos.csproj" />
+    <ProjectReference Include="..\AutoPay.Infrastructure\AutoPay.Infrastructure.csproj" />
+    <ProjectReference Include="..\AutoPay.Models\AutoPay.Models.csproj" />
+    <ProjectReference Include="..\AutoPay.Services\AutoPay.Services.csproj" />
+    <ProjectReference Include="..\AutoPay.Utilities\AutoPay.Utilities.csproj" />
+    <ProjectReference Include="..\AutoPay.ViewModels\AutoPay.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

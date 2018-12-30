@@ -1,0 +1,127 @@
+﻿@model AutoPay.ViewModels.Customer.CustomerDetailVm
+@{
+    ViewData["Title"] = "Customer Detail";
+    ViewBag.NavCssCustomers = "active";
+    int? batchId = ViewBag.BatchId != null ? Convert.ToInt32(ViewBag.BatchId) : null;
+}
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetCustomerDetailHeader()" />
+<section class="content">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <div class="box box-primary">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="box-header with-border">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3 class="box-title">Customer Detail</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Customer ID:</label>
+                                        <div class="col-sm-4">
+                                            <p class="m-t-5">@Model.Code</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Customer Name:</label>
+                                        <div class="col-sm-8">
+                                            <p class="m-t-5">@Model.Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Address:</label>
+                                        <div class="col-sm-8">
+                                            <p class="m-t-5">@Model.Address</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">City:</label>
+                                        <div class="col-sm-8">
+                                            <p class="m-t-5">@Model.City</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">State:</label>
+                                        <div class="col-sm-8">
+                                            <p class="m-t-5">@Model.State</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Country:</label>
+                                        <div class="col-sm-8">
+                                            <p class="m-t-5">@Model.Country</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Zip:</label>
+                                        <div class="col-sm-4">
+                                            <p class="m-t-5">@Model.ZipCode</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box-header with-border">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3 class="box-title">Payment Detail</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Card Type:</label>
+                                        <div class="col-sm-4">
+                                            <p class="m-t-5">@Model.CardType</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Card Number:</label>
+                                        <div class="col-sm-9">
+                                            <p class="m-t-5">@Model.CardNumber.ApplyCcNumberMask()</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Expiry Month:</label>
+                                        <div class="col-sm-3">
+                                            <p class="m-t-5">@Model.ExpiryMonth</p>
+                                        </div>
+                                        <label class="col-sm-3 control-label">Expiry Year:</label>
+                                        <div class="col-sm-3">
+                                            <p class="m-t-5">@Model.ExpiryYear</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">CCV:</label>
+                                        <div class="col-sm-4">
+                                            <p class="m-t-5">@Model.Ccv.ApplyCcvMask()</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer text-right">
+                        @if (batchId.HasValue)
+                        {
+                            <a asp-action="process" asp-controller="batch" asp-route-id="@batchId.Value" class="btn btn-default btn-flat">Cancel</a>
+                        }
+                        else
+                        {
+                            <a asp-action="manage" asp-controller="customer" class="btn btn-default btn-flat">Cancel</a>
+                        }
+                        <a asp-action="edit"
+                           asp-controller="customer"
+                           asp-route-id="@Model.Id"
+                           class="btn btn-primary btn-flat p-l-20 p-r-20 m-l-5">Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

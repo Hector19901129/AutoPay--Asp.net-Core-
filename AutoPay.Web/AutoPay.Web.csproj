@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoPay.Configuration\AutoPay.Configuration.csproj" />
+    <ProjectReference Include="..\AutoPay.Mappers\AutoPay.Mappers.csproj" />
+    <ProjectReference Include="..\AutoPay.Models\AutoPay.Models.csproj" />
+    <ProjectReference Include="..\AutoPay.Utilities\AutoPay.Utilities.csproj" />
+    <ProjectReference Include="..\AutoPay.ViewModels\AutoPay.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Customer\Detail.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+</Project>

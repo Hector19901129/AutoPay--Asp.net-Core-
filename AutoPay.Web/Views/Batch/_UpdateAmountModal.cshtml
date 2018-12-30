@@ -1,0 +1,39 @@
+﻿<div class="modal fade" id="modal-update-amount">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update Amount</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-horizontal m-t-15">
+                            <div id="container-amount-due-history">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-5">Amount Due:</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-dollar"></i>
+                                        </span>
+                                        <input type="number" class="form-control" name="AmountDue" id="AmountDue" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <input type="hidden" id="hidCustomerId" value="0" />
+                        <button type="button" class="btn btn-default btn-flat" onclick="closeEditAmountModal()">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-flat m-l-10" onclick="editAmount()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

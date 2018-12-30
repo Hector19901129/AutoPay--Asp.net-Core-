@@ -1,0 +1,78 @@
+﻿@model AutoPay.ViewModels.Batch.BatchDetailVm
+@{
+    ViewData["Title"] = "Batch";
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>Batch</h2>
+        </div>
+    </div>
+    <div class="row m-t-30">
+        <div class="col-md-12 text-center">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-left">
+                            Customer ID
+                        </th>
+                        <th class="text-left">
+                            Customer Name
+                        </th>
+                        <th class="text-right">
+                            Amount
+                        </th>
+                        <th class="text-left">
+                            Payment Status
+                        </th>
+                        <th class="text-left">
+                            Authorization Code
+                        </th>
+                        <th class="text-left">
+                            TransactionID
+                        </th>
+                    </tr>
+                </thead>
+                @if (Model.Customers != null)
+                {
+                    <tbody>
+                        @foreach (var customer in Model.Customers)
+                        {
+                            <tr>
+                                <td class="text-left">
+                                    @customer.CustomerId
+                                </td>
+                                <td class="text-left">
+                                    @customer.CustomerName
+                                </td>
+                                <td class="text-right">
+                                    @customer.Amount?.ToString("C")
+                                </td>
+                                <td class="text-left">
+                                    @customer.PaymentStatus
+                                </td>
+                                <td class="text-left">
+                                    @(customer.PaymentAuthCode ?? "N/A")
+                                </td>
+                                <td class="text-left">
+                                    @(customer.TransactionId ?? "N/A")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(function() {
+            window.print();
+            window.close();
+        });
+    </script>
+}

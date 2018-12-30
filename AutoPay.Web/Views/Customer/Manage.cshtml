@@ -1,0 +1,112 @@
+﻿@model IEnumerable<AutoPay.Dtos.Customer.CustomerListItemDto>
+@{
+    ViewData["Title"] = "Customers";
+    ViewBag.NavCssCustomers = "active";
+}
+
+<partial name="_PageHeaderPartial" model="AdminPageHeader.GetManageCustomersHeader()" />
+<section class="content">
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="box-title">Manage Customers</h3>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a asp-action="customer"
+                               asp-controller="report"
+                               class="btn btn-sm btn-default btn-flat"
+                               target="_blank">Print</a>
+                            <a asp-action="add" asp-controller="customer" class="btn btn-sm btn-primary btn-flat m-l-10">Add Customer</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="customerTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Customer ID
+                                        </th>
+                                        <th>
+                                            Customer Name
+                                        </th>
+                                        <th>
+                                            Address
+                                        </th>
+                                        <th>
+                                            Card Number
+                                        </th>
+                                        <th>
+                                            Card Expiry
+                                        </th>
+                                        <th class="text-center">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @if (Model != null && Model.Any())
+                                {
+                                    <tbody>
+                                        @foreach (var c in Model)
+                                        {
+                                            <tr class="@(c.CardStatus == CardStatus.Expired?"bg-red":c.CardStatus== CardStatus.Expring?"bg-yellow":"")">
+                                                <td>
+                                                    <a asp-action="detail"
+                                                       asp-controller="customer"
+                                                       asp-route-id="@c.Code"
+                                                       class="navigator">@c.Code</a>
+                                                </td>
+                                                <td>
+                                                    @c.Name
+                                                </td>
+                                                <td>
+                                                    @(Utility.GetFormattedAddress(c.Address, c.City, c.State, c.ZipCode, c.Country))
+                                                </td>
+                                                <td>
+                                                    @c.CardNumber.ApplyCcNumberMask()
+                                                </td>
+                                                <td>
+                                                    @(c.ExpiryMonth + "/" + c.ExpiryYear)
+                                                </td>
+                                                <td class="text-center toolbox">
+                                                    <a asp-action="edit" asp-controller="customer" asp-route-id="@c.Id" class="tool"><i class="fa fa-pencil"></i> </a>
+                                                    <a asp-action="delete" asp-controller="customer" asp-route-id="@c.Id" class="m-l-5 tool"><i class="fa fa-trash"></i> </a>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer text-right">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#customerTable').DataTable({
+                "columns": [
+                    { "data": "code" },
+                    { "data": "name" },
+                    { "data": "address" },
+                    { "data": "cardNumber" },
+                    { "data": "cardExpiry" },
+                    { "data": "action", sortable: false }
+                ]
+            });
+        });
+    </script>
+}
