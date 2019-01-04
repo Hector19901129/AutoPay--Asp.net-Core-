@@ -13,5 +13,6 @@ namespace AutoPay.Infrastructure.Managers
         Task<IEnumerable<PaymentErrorDto>> GetPaymentErrorsAsync(int id);
         Task UpdateAmountAsync(AmountDueEditVm model);
         Task<IEnumerable<BatchCustomerDueDetailListItemDto>> GetDueAmountDetailAsync(int batchCustomerId);
+        Task UpdateStatusIsExistInLocalDb(string code);
     }
 }

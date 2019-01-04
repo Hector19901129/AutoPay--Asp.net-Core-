@@ -66,8 +66,15 @@ namespace AutoPay.Managers
                 CreatedOn = Utility.GetDateTime().ToString(CultureInfo.InvariantCulture),
                 Status = RecordStatus.Active.ToString()
             };
-
-            _cryptographyService.Encrypt(customer, _encryptionKey, "Id", "CreatedBy");
+            if(customer.Ccv == null)
+            {
+                _cryptographyService.Encrypt(customer, _encryptionKey, "Id", "CreatedBy", "Ccv");
+            }
+            else
+            {
+                _cryptographyService.Encrypt(customer, _encryptionKey, "Id", "CreatedBy");
+            }
+            
 
             var batchCustomer = await _batchCustomerRepository.Filter(x => x.Batch.UserId.Equals(_userId)
                 && x.BatchId == model.BatchId

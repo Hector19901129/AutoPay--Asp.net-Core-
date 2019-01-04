@@ -24,12 +24,14 @@ namespace AutoPay.Managers
         private readonly IRepository<Batch> _repository;
         private readonly IRepository<Customer> _customerRepository;
         private readonly ICryptographyService _cryptographyService;
+        private readonly ICustomerManager _customerManager;
 
         public BatchManager(IHttpContextAccessor httpContextAccessor,
             IMemoryCache cache,
             IUnitOfWork unitOfWork,
             IRepository<Batch> repository,
             IRepository<Customer> customerRepository,
+            ICustomerManager customerManager,
             ICryptographyService cryptographyService)
         {
             _httpContext = httpContextAccessor.HttpContext;
@@ -39,6 +41,7 @@ namespace AutoPay.Managers
             _repository = repository;
             _customerRepository = customerRepository;
             _cryptographyService = cryptographyService;
+            _customerManager = customerManager;
         }
 
         public async Task<int> CreateAsync(BatchAddVm model, List<BatchCustomerDto> batchCustomers, List<BatchCustomerDueDetailDto> batchCustomerDueDetails)
@@ -112,6 +115,14 @@ namespace AutoPay.Managers
 
         public async Task<BatchDto> GetForProcessAsync(int id)
         {
+            var customers = await _customerManager.GetAsync();
+            List<string> codes = new List<string>();
+            List<string> names = new List<string>();
+            foreach(var customer in customers)
+            {
+                codes.Add(_cryptographyService.Encrypt(customer.Code, _encryptionKey));
+                names.Add(_cryptographyService.Encrypt(customer.Name, _encryptionKey));
+            }
             var completedPaymentStatusHash = _cryptographyService.Encrypt(PaymentStatus.Completed.ToString(), _encryptionKey);
             var batch = await (from b in _repository.Entity()
                                where b.Id == id
@@ -120,13 +131,13 @@ namespace AutoPay.Managers
                                    Id = b.Id,
                                    Name = b.Name,
                                    Customers = from c in b.Customers
-                                               where c.PaymentStatus != completedPaymentStatusHash
+                                               where c.PaymentStatus != completedPaymentStatusHash && codes.Contains(c.CustomerId)
                                                let lastPayment = c.Payments.OrderByDescending(x => x.CreatedOn).FirstOrDefault()
                                                select new BatchCustomerDto
                                                {
                                                    Id = c.Id,
                                                    CustomerId = c.CustomerId,
-                                                   CustomerName = c.CustomerName,
+                                                   CustomerName = names[codes.IndexOf(c.CustomerId)],
                                                    AmountDue = c.AmountDue,
                                                    IsExistsInLocalDb = c.IsExistsInLocalDb,
                                                    PaymentStatus = c.PaymentStatus,
@@ -134,10 +145,10 @@ namespace AutoPay.Managers
                                                }
                                }).SingleOrDefaultAsync();
 
-            if (batch?.Customers == null)
+            /*if (batch?.Customers == null)
             {
                 return batch;
-            }
+            }*/
 
             batch.Customers = batch.Customers.ToList();
 

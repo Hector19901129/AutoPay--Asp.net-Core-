@@ -84,7 +84,11 @@ namespace AutoPay.Infrastructure.DataLayer
         /// </summary>
         /// <param name="t">Specified the object to save.</param>
         void Update(T t);
-
+        /// <summary>
+        /// Update objects changes and save to database.
+        /// </summary>
+        /// <param name="t">Specified the object to save.</param>
+        void UpdateMany(ICollection<T> entities);
         /// <summary>
         /// Delete the object from database.
         /// </summary>

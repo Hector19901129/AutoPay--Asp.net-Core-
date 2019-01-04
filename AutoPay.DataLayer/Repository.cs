@@ -105,7 +105,10 @@ namespace AutoPay.DataLayer
 
             _dataContext.Entry(entity).State = EntityState.Modified;
         }
-
+        public void UpdateMany(ICollection<T> entities)
+        {
+            DbSet().AttachRange(entities);
+        }
         public void Delete(T entity)
         {
             DbSet().Remove(entity);

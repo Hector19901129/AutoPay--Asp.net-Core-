@@ -87,19 +87,28 @@ namespace AutoPay.Managers
             var customer = await _customerRepository.Entity().SingleAsync(x => x.Code.Equals(batchCustomer.CustomerId));
 
             _cryptographyService.Decrypt(batchCustomer, _encryptionKey, "Id", "BatchId", "Batch", "Payments");
-
-            _cryptographyService.Decrypt(customer, _encryptionKey, "Id", "CreatedBy");
+            if(customer.Ccv == null)
+            {
+                _cryptographyService.Decrypt(customer, _encryptionKey, "Id", "CreatedBy", "Ccv");
+            }
+            else
+            {
+                _cryptographyService.Decrypt(customer, _encryptionKey, "Id", "CreatedBy");
+            }
+            
 
             _logger.LogInformation("Payment initiated for customer - " + batchCustomer.CustomerId);
 
             var transactionRequestModel = new TransactionRequestModel
             {
-                CardNumber = "11111",//customer.CardNumber,
+                CardNumber = customer.CardNumber,
                 CardExpiration = $"{Convert.ToInt32(customer.ExpiryMonth):00}{customer.ExpiryYear.Substring(2, 2)}",
-                Ccv = customer.Ccv,
                 Amount = Convert.ToDecimal(batchCustomer.AmountDue)
             };
-
+            if(customer.Ccv != null)
+            {
+                transactionRequestModel.Ccv = customer.Ccv;
+            }
             _logger.LogInformation(
                 $"Transaction request model for customer {batchCustomer.CustomerId} \n{JsonConvert.SerializeObject(transactionRequestModel)}");
 
@@ -190,10 +199,21 @@ namespace AutoPay.Managers
 
             await _unitOfWork.SaveChangesAsync();
         }
+        public async Task UpdateStatusIsExistInLocalDb(string code)
+        {
+            var batchCustomers = await _repository.Filter(x => x.CustomerId == _cryptographyService.Encrypt(code, _encryptionKey)).ToArrayAsync();
+            foreach(var batchCustomer in batchCustomers)
+            {
+                batchCustomer.IsExistsInLocalDb = _cryptographyService.Encrypt("True", _encryptionKey);
+            }
+                
+            _repository.UpdateMany(batchCustomers);
 
+            await _unitOfWork.SaveChangesAsync();
+        }
         public async Task<IEnumerable<BatchCustomerDueDetailListItemDto>> GetDueAmountDetailAsync(int batchCustomerId)
         {
-            var dueDetails = await _batchCustomerDueDetailRepository.Entity().Where(x => x.BatchCustomerId == batchCustomerId)
+            var dueDetails = await _batchCustomerDueDetailRepository.Entity().OrderBy(x => x.RecType).Where(x => x.BatchCustomerId == batchCustomerId)
                 .Select(x => new BatchCustomerDueDetailListItemDto
                 {
                     RecType = x.RecType,

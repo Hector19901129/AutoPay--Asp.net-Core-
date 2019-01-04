@@ -66,7 +66,7 @@ namespace AutoPay.Web.Controllers
             }
 
             await _customerManager.InsertAsync(model);
-
+            await _batchCustomerManager.UpdateStatusIsExistInLocalDb(model.Code);
             this.SetResponse(ResponseType.Success, "Customer has been added successfully.", true);
 
             return !model.BatchId.HasValue
@@ -98,7 +98,7 @@ namespace AutoPay.Web.Controllers
             }
 
             await _customerManager.UpdateAsync(model);
-
+            
             this.SetResponse(ResponseType.Success, "Customer has been updated successfully.", true);
 
             return RedirectToAction("manage", "customer");

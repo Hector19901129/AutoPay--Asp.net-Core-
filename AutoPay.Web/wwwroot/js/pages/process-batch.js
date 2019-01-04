@@ -94,9 +94,29 @@ function updateAmountDueDetailModal(items) {
     var htmlString = "";
     $.each(items,
         function (index, item) {
-            if (item.recType !== 2) {
+
+            if (item.recType == 0) {
                 console.log(item);
-                const label = item.recType === 0 ? "Starting Balance" : item.description;
+                const label = "Starting Balance";
+                htmlString +=
+                    `<div class="form-group">
+                        <label class="control-label col-md-5"> ${label}:</label>
+                        <div class="col-md-7"> 
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-dollar"></i>
+                                </span>
+                                <input type="text" class="form-control disabled" disabled value="${item.amountDue}"/>
+                            </div>              
+                        </div>
+                    </div>`;
+            }
+        });
+    $.each(items,
+        function (index, item) {
+            
+            if (item.recType == 1) {
+                const label = item.description;
                 htmlString +=
                     `<div class="form-group">
                         <label class="control-label col-md-5"> ${label}:</label>

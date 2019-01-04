@@ -32,13 +32,16 @@ namespace AutoPay.Services
                 ItemElementName = ItemChoiceType.transactionKey,
                 Item = _authorizeNetConfiguraton["TransactionKey"]
             };
+            
             var creditCard = new creditCardType
             {
                 cardNumber = model.CardNumber,
                 expirationDate = model.CardExpiration,
-                cardCode = model.Ccv
             };
-
+            if (model.Ccv != null)
+            {
+                creditCard.cardCode = model.Ccv;
+            }
             var paymentType = new paymentType { Item = creditCard };
 
             var transactionRequest = new transactionRequestType
