@@ -164,6 +164,14 @@ namespace AutoPay.Managers
 
         public async Task<BatchDetailDto> GetDetailAsync(int id)
         {
+            var customers = await _customerManager.GetAsync();
+            List<string> codes = new List<string>();
+            List<string> names = new List<string>();
+            foreach (var customer in customers)
+            {
+                codes.Add(_cryptographyService.Encrypt(customer.Code, _encryptionKey));
+                names.Add(_cryptographyService.Encrypt(customer.Name, _encryptionKey));
+            }
             var batch = await (from b in _repository.Entity()
                                where b.Id == id
                                select new BatchDetailDto
@@ -171,12 +179,13 @@ namespace AutoPay.Managers
                                    Id = b.Id,
                                    Name = b.Name,
                                    Customers = from c in b.Customers
+                                               where codes.Contains(c.CustomerId)
                                                let payment = c.Payments.OrderByDescending(x => x.CreatedOn).FirstOrDefault()
                                                select new BatchCustomerDetailDto
                                                {
                                                    Id = c.Id,
                                                    CustomerId = c.CustomerId,
-                                                   CustomerName = c.CustomerName,
+                                                   CustomerName = names[codes.IndexOf(c.CustomerId)],
                                                    Amount = c.AmountDue,
                                                    PaymentStatus = c.PaymentStatus,
                                                    TransactionDate = payment.CreatedOn,
@@ -186,10 +195,10 @@ namespace AutoPay.Managers
                                                }
                                }).SingleOrDefaultAsync();
 
-            if (batch?.Customers == null)
+            /*if (batch?.Customers == null)
             {
                 return batch;
-            }
+            }*/
 
             batch.Customers = batch.Customers.ToList();
 

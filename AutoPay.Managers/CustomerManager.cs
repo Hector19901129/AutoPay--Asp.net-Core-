@@ -144,7 +144,7 @@ namespace AutoPay.Managers
 
             return (from c in customers
                     let countryId = Convert.ToInt32(c.CountryId)
-                    let expiryDate = Convert.ToDateTime($"{DateTime.DaysInMonth(Convert.ToInt32(c.ExpiryYear), Convert.ToInt32(c.ExpiryMonth))}/{c.ExpiryMonth}/{c.ExpiryYear}")
+                    let expiryDate = Convert.ToDateTime($"{c.ExpiryMonth}/{DateTime.DaysInMonth(Convert.ToInt32(c.ExpiryYear), Convert.ToInt32(c.ExpiryMonth))}/{c.ExpiryYear}")
                     let cardStatus = expiryDate < DateTime.Now ? CardStatus.Expired : expiryDate < DateTime.Now.AddMonths(3) ? CardStatus.Expring : CardStatus.Valid
                     join country in _countryRepository.Entity()
                     on countryId equals country.Id
