@@ -48,7 +48,16 @@ namespace AutoPay.Services
             {
                 transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),   // charge the card
                 amount = model.Amount,
-                payment = paymentType
+                payment = paymentType,
+                billTo = new customerAddressType
+                {
+                    firstName = model.Firstname,
+                    lastName = model.Lastname,
+                    address = model.Zipcode,
+                    city = model.City,
+                    state = model.State,
+                    zip = model.Zipcode
+                }
             };
 
             var request = new createTransactionRequest { transactionRequest = transactionRequest };

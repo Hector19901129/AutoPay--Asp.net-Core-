@@ -108,6 +108,7 @@
                 <div class="box-footer text-right">
                     <input type="hidden" asp-for="Id" />
                     <a asp-action="manage" asp-controller="batch" class="btn btn-default btn-flat">Cancel</a>
+                    <a asp-action="closeBatch" asp-controller="batch" class="btn btn-warning btn-flat m-l-10" onclick="closeBatch()">Close Batch</a>
                     <button type="button"
                             id="btnCaptureCharges"
                             class="btn btn-primary btn-flat m-l-10"

@@ -103,7 +103,13 @@ namespace AutoPay.Managers
             {
                 CardNumber = customer.CardNumber,
                 CardExpiration = $"{Convert.ToInt32(customer.ExpiryMonth):00}{customer.ExpiryYear.Substring(2, 2)}",
-                Amount = Convert.ToDecimal(batchCustomer.AmountDue)
+                Amount = Convert.ToDecimal(batchCustomer.AmountDue),
+                Address = customer.Address,
+                Firstname = customer.Name.Contains(" ") ? customer.Name.Split(" ")[0] : customer.Name,
+                Lastname = customer.Name.Contains(" ") ? customer.Name.Split(" ")[1] : "",
+                Zipcode = customer.ZipCode,
+                State = customer.State,
+                City = customer.City
             };
             if(customer.Ccv != null)
             {

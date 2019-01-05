@@ -149,6 +149,15 @@ namespace AutoPay.Web.Controllers
             return RedirectToAction("manage", "batch");
         }
 
+        public async Task<IActionResult> Reopen(int id)
+        {
+            await _batchManager.UpdateStatusToCreatedAsync(id);
+
+            this.SetResponse(ResponseType.Success, "Reopened the batch successfully!", true);
+
+            return RedirectToAction("manage", "batch");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Charge(int id)
         {
@@ -165,6 +174,18 @@ namespace AutoPay.Web.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CloseBatch(int id)
+        {
+            await _batchManager.UpdateStatusToCompletedAsync(id);
+
+            this.SetResponse(ResponseType.Success, "Completed the batch successfully!", true);
+
+            return Ok();
+        }
+
+        
 
         [HttpGet]
         public async Task<IActionResult> PaymentError(int id, int bId)

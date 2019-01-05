@@ -71,6 +71,18 @@ function updateBatchStatus() {
         });
 }
 
+function closeBatch() {
+    const batchId = $("#Id").val();
+    $.get(`/batch/closeBatch/${batchId}`,
+        function () {
+            location.href = "/batch/manage";
+        }).fail(function (res) {
+            alertify.error("Can not close this batch!");
+            location.href = "/batch/manage";
+        });
+}
+
+
 function showEditAmountModal(id, amountDue) {
     $("#hidCustomerId").val(id);
     $("#AmountDue").val(amountDue);

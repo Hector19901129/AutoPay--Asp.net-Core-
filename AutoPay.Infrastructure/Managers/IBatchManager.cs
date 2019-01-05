@@ -15,5 +15,7 @@ namespace AutoPay.Infrastructure.Managers
         Task<bool> IsExistsAsync(string name);
         Task<bool> DeleteAsync(int id);
         Task UpdateStatusAsync(int id);
+        Task UpdateStatusToCompletedAsync(int id);
+        Task UpdateStatusToCreatedAsync(int id);
     }
 }

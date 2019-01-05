@@ -237,14 +237,34 @@ namespace AutoPay.Managers
             var batch = await _repository.Filter(x => x.Id == id, "Customers").SingleAsync();
 
             var paymentStatusHash = _cryptographyService.Encrypt(PaymentStatus.Failed.ToString(), _encryptionKey);
-
-            var batchStatus = batch.Customers.Any(x => x.PaymentStatus.Equals(paymentStatusHash))
-                ? BatchStatus.Failed
-                : BatchStatus.Completed;
-
-            batch.Status = batchStatus;
+            var paymentStatus1Hash = _cryptographyService.Encrypt(PaymentStatus.NotInitiated.ToString(), _encryptionKey);
+            if (batch.Customers.Any(x => x.PaymentStatus.Equals(paymentStatusHash)) == true){
+                batch.Status = BatchStatus.Failed;
+            }else if(batch.Customers.Any(x => x.PaymentStatus.Equals(paymentStatus1Hash)) == true){
+                batch.Status = BatchStatus.Created;
+            }
+            else
+            {
+                batch.Status = BatchStatus.Completed;
+            }
             batch.UpdatedOn = Utility.GetDateTime();
 
+            _repository.Update(batch);
+            await _unitOfWork.SaveChangesAsync();
+        }
+        public async Task UpdateStatusToCompletedAsync(int id)
+        {
+            var batch = await _repository.Filter(x => x.Id == id).SingleAsync();
+            batch.Status = BatchStatus.Completed;
+            batch.UpdatedOn = Utility.GetDateTime();
+            _repository.Update(batch);
+            await _unitOfWork.SaveChangesAsync();
+        }
+        public async Task UpdateStatusToCreatedAsync(int id)
+        {
+            var batch = await _repository.Filter(x => x.Id == id).SingleAsync();
+            batch.Status = BatchStatus.Created;
+            batch.UpdatedOn = Utility.GetDateTime();
             _repository.Update(batch);
             await _unitOfWork.SaveChangesAsync();
         }
