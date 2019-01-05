@@ -51,14 +51,27 @@ namespace AutoPay.Managers
                                         join c in _customerRepository.Entity().Where(x => x.CreatedBy.Equals(_userId))
                                         on customerIdHash equals c.Code
                                         select bc.CustomerId).ToList();
-
+            var customers = await _customerManager.GetAsync();
+            List<string> codes = new List<string>();
+            foreach (var customer in customers)
+            {
+                codes.Add(customer.Code);
+            }
+            int customerCount = 0;
+            foreach(var element in matchedCustomerCodes)
+            {
+                if (codes.Contains(element))
+                {
+                    customerCount++;
+                }
+            }
             var batch = new Batch
             {
                 UserId = _httpContext.User.GetUserId(),
                 Name = model.Name,
                 SqlQuery = "",
                 CreatedOn = Utility.GetDateTime(),
-                CustomersCount = batchCustomers.Count,
+                CustomersCount = customerCount,
                 Status = BatchStatus.Created,
                 Customers = batchCustomers.Select(x => new BatchCustomer
                 {
@@ -220,7 +233,7 @@ namespace AutoPay.Managers
         public async Task<bool> DeleteAsync(int id)
         {
             var batch = await _repository.FindAsync(id);
-            if (batch.Status != BatchStatus.Created)
+            if (batch.Status != BatchStatus.Completed)
                 return false;
 
             batch.Status = BatchStatus.Deleted;
@@ -235,12 +248,18 @@ namespace AutoPay.Managers
         public async Task UpdateStatusAsync(int id)
         {
             var batch = await _repository.Filter(x => x.Id == id, "Customers").SingleAsync();
-
+            var customers = await _customerManager.GetAsync();
+            List<string> codes = new List<string>();
+            foreach (var customer in customers)
+            {
+                codes.Add(_cryptographyService.Encrypt(customer.Code, _encryptionKey));
+            }
             var paymentStatusHash = _cryptographyService.Encrypt(PaymentStatus.Failed.ToString(), _encryptionKey);
             var paymentStatus1Hash = _cryptographyService.Encrypt(PaymentStatus.NotInitiated.ToString(), _encryptionKey);
-            if (batch.Customers.Any(x => x.PaymentStatus.Equals(paymentStatusHash)) == true){
+            if (batch.Customers.Any(x => x.PaymentStatus.Equals(paymentStatusHash) && codes.Contains(x.CustomerId)) == true)
+            {
                 batch.Status = BatchStatus.Failed;
-            }else if(batch.Customers.Any(x => x.PaymentStatus.Equals(paymentStatus1Hash)) == true){
+            }else if(batch.Customers.Any(x => x.PaymentStatus.Equals(paymentStatus1Hash) && codes.Contains(x.CustomerId)) == true){
                 batch.Status = BatchStatus.Created;
             }
             else

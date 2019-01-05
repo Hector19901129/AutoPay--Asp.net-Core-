@@ -30,7 +30,6 @@ namespace AutoPay.ViewModels.Customer
         public int ExpiryMonth { get; set; }
         [Required]
         public int ExpiryYear { get; set; }
-        [Required]
         [StringLength(4, MinimumLength = 3)]
         public string Ccv { get; set; }
     }

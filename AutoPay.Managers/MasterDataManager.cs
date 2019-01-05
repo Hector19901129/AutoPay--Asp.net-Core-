@@ -45,7 +45,7 @@ namespace AutoPay.Managers
         public IEnumerable<SelectListItemDto> GetCardExpiryYears()
         {
             var items = new List<SelectListItemDto>();
-            for (var i = DateTime.Now.Year; i <= DateTime.Now.AddYears(20).Year; i++)
+            for (var i = DateTime.Now.Year - 2; i <= DateTime.Now.AddYears(20).Year; i++)
             {
                 items.Add(new SelectListItemDto { Id = i, Name = i.ToString() });
             }
