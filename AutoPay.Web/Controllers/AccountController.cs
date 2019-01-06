@@ -52,6 +52,11 @@ namespace AutoPay.Web.Controllers
             //register if user not already exists
             if (user == null)
             {
+                if(_userManager.Users.Count() > 0)
+                {
+                    this.SetResponse(ResponseType.Error, "Invalid user name. Please input valid user name.");
+                    return View(model);
+                }
                 //initiate user instance
                 user = new IdentityUser
                 {
