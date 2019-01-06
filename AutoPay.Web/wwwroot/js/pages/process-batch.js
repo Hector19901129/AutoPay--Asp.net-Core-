@@ -64,10 +64,10 @@ function updateBatchStatus() {
     const batchId = $("#Id").val();
     $.post(`/batch/updateStatus/${batchId}`,
         function () {
-            location.href = "/batch/manage";
+            location.href = `/batch/process/${batchId}`;
         }).fail(function (res) {
             alertify.error("Charges has been captured but failed to update.");
-            location.href = "/batch/manage";
+            location.href = `/batch/process/${batchId}`;
         });
 }
 

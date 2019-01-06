@@ -55,10 +55,13 @@
                     </div>
                 </div>
                 <div class="box-footer text-right">
-                    <a asp-action="detail" asp-controller="batch" asp-route-id="@batchId"
-                       class="btn btn-default btn-flat">
+                    <button type="button"
+                            id="back"
+                            class="btn btn-default btn-flat m-l-10"
+                            onclick="javascript:history.back()"
+                            >
                         Back
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

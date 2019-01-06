@@ -49,55 +49,73 @@
                                     <tbody>
                                         @foreach (var customer in Model.Customers)
                                         {
-                                            <tr class="@(customer.IsExistsInLocalDb ? "" : "bg-red")">
-                                                <td>
-                                                    @if (customer.IsExistsInLocalDb)
-                                                    {
-                                                        <a asp-action="detail"
-                                                           asp-controller="customer"
-                                                           asp-route-id="@customer.CustomerId"
-                                                           asp-route-bId="@Model.Id"
-                                                           class="navigator">@customer.CustomerId</a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a asp-action="add"
-                                                           asp-controller="customer"
-                                                           asp-route-id="@customer.CustomerId"
-                                                           asp-route-bId="@Model.Id"
-                                                           class="navigator">@customer.CustomerId</a>
-                                                    }
-                                                </td>
-                                                <td>
-                                                    @customer.CustomerName
-                                                </td>
-                                                <td class="text-right">
-                                                    <span>
-                                                        @customer.AmountDue?.ToString("C")
-                                                    </span>
-                                                    <i class="fa fa-pencil cursor-pointer m-r-2 m-l-5"
-                                                       title="Edit Amount"
-                                                       onclick="showEditAmountModal(@customer.Id, @customer.AmountDue)"></i>
-                                                </td>
-                                                <td>
-                                                    <partial name="_PaymentStatusLabelPartial" model="@customer.PaymentStatus" />
-                                                </td>
-                                                <td>
-                                                    @if (customer.TransactionDate.HasValue)
-                                                    {
-                                                        @customer.TransactionDate
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>N/A</span>
-                                                    }
-                                                </td>
-                                                <td class="text-center" id="action-approve">
-                                                    <input type="checkbox"
-                                                           id="approve_@(customer.Id)"
-                                                           @(customer.IsExistsInLocalDb ? "" : "disabled") />
-                                                </td>
-                                            </tr>
+                                        <tr class="@(customer.IsExistsInLocalDb ? "" : "bg-red")">
+                                            <td>
+                                                @if (customer.IsExistsInLocalDb)
+                                                {
+                                                    <a asp-action="detail"
+                                                       asp-controller="customer"
+                                                       asp-route-id="@customer.CustomerId"
+                                                       asp-route-bId="@Model.Id"
+                                                       class="navigator">@customer.CustomerId</a>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-action="add"
+                                                       asp-controller="customer"
+                                                       asp-route-id="@customer.CustomerId"
+                                                       asp-route-bId="@Model.Id"
+                                                       class="navigator">@customer.CustomerId</a>
+                                                }
+                                            </td>
+                                            <td>
+                                                @customer.CustomerName
+                                            </td>
+                                            <td class="text-right">
+                                                <span>
+                                                    @customer.AmountDue?.ToString("C")
+                                                </span>
+                                                <i class="fa fa-pencil cursor-pointer m-r-2 m-l-5"
+                                                   title="Edit Amount"
+                                                   onclick="showEditAmountModal(@customer.Id, @customer.AmountDue)"></i>
+                                            </td>
+                                            <td>
+                                                <!--<partial name="_PaymentStatusLabelPartial" model="@customer.PaymentStatus" />-->
+
+                                                @if (customer.PaymentStatus == PaymentStatus.Completed)
+                                                {
+                                                    <span class="label label-success">Completed</span>
+                                                }
+                                                else if (customer.PaymentStatus == PaymentStatus.Failed)
+                                                {
+                                                    <span class="label label-danger">Failed</span>
+                                                    <a asp-action="paymentError"
+                                                       asp-controller="batch"
+                                                       asp-route-id="@customer.Id"
+                                                       asp-route-bId="@Model.Id">[View]</a>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-default">Pending</span>
+                                                }
+
+                                            </td>
+                                            <td>
+                                                @if (customer.TransactionDate.HasValue)
+                                                {
+                                                    @customer.TransactionDate
+                                                }
+                                                else
+                                                {
+                                                    <span>N/A</span>
+                                                }
+                                            </td>
+                                            <td class="text-center" id="action-approve">
+                                                <input type="checkbox"
+                                                       id="approve_@(customer.Id)"
+                                                       @(customer.IsExistsInLocalDb ? "" : "disabled") />
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 }
