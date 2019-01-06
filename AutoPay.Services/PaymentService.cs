@@ -85,13 +85,19 @@ namespace AutoPay.Services
                 }
                 else
                 {
-                    var errorResponse = controller.GetErrorResponse();
+                    /*var errorResponse = controller.GetErrorResponse();
 
                     transactionResponse.Errors = errorResponse.messages.message.Select(x => new TransactionErrorModel
                     {
                         Code = x.code,
                         Description = x.text
-                    });
+                    });*/
+                    transactionResponse.Errors = response.transactionResponse.errors?
+                            .Select(x => new TransactionErrorModel
+                            {
+                                Code = x.errorCode,
+                                Description = x.errorText
+                            });
                 }
             }
             catch (Exception ex)
