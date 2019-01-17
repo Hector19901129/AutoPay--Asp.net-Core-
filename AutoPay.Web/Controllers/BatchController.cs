@@ -94,7 +94,7 @@ namespace AutoPay.Web.Controllers
                 return View(model);
             }
 
-            /*try
+            try
             {
                 await _remoteDbManager.UpdateCurrentChargesDetailAsync(remoteDbConfig);
             }
@@ -102,7 +102,7 @@ namespace AutoPay.Web.Controllers
             {
                 this.SetResponse(ResponseType.Error, ex.Message);
                 return View(model);
-            }*/
+            }
 
             List<BatchCustomerDueDetailDto> batchCustomerDueDetails;
 
